@@ -20,7 +20,8 @@ N/A
 
 ## Usage
 video demonstration of insomnia routes.
-[Uploading Untitled_ Sep 12, 2023 6_05 PM.webm…]()
+[InsomniaRoutes18.webm](https://github.com/Glansburg/socialMedia/assets/117139285/dff6d288-651f-49be-8771-615d1138fee4)
+
 
 
 
