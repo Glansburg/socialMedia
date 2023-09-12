@@ -20,10 +20,24 @@ module.exports = {
           return res.status(404).json({ message: 'No thought with that ID' });
         }
   
-        res.json(course);
+        res.json(thought);
       } catch (err) {
         res.status(500).json(err);
       }
-    }
+    },
+
+    async createThought(req, res) {
+        try {
+          const thought = await Thought.create(req.body);
+          const user = await User.findOneAndUpdate(
+            {_id: req.body.userId},
+            {$addToSet:{thoughts: thought._id}},
+            {runValidators:true, new:true}
+          )
+          res.json({thought, user});
+        } catch (err) {
+          res.status(500).json(err);
+        }
+      },
 
 }

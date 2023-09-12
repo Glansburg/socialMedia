@@ -1,24 +1,14 @@
 const { ObjectId } = require('mongoose').Types;
 const { User, Thought } = require('../models');
 
-// Aggregate function to get the number of users overall
-const headCount = async () => {
-    const numberOfUsers = await User.aggregate()
-      .count('userCount');
-    return numberOfUsers;
-  };
+
 // Get all users
 module.exports = {
  async getUsers(req, res) {
     try {
       const users = await User.find();
 
-      const userObj = {
-        users,
-        headCount: await headCount(),
-      };
-
-      res.json(userObj);
+      res.json(users);
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -27,17 +17,16 @@ module.exports = {
 // Get a single user
 async getSingleUser(req, res) {
     try {
-      const user = await User.findOne({ _id: req.params.userId })
+      const user = await User.findOne({ _id: req.params.userId }).populate("thoughts").populate("friends")
         .select('-__v');
 
       if (!user) {
         return res.status(404).json({ message: 'No user with that ID' })
       }
-//unsure of this part?
-      res.json({
-        user,
-        grade: await grade(req.params.userId),
-      });
+
+      res.json(
+        user
+      );
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);
@@ -46,8 +35,8 @@ async getSingleUser(req, res) {
 // create a new user
 async createUser(req, res) {
     try {
-      const student = await User.create(req.body);
-      res.json(student);
+      const user = await User.create(req.body);
+      res.json(user);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -73,12 +62,12 @@ async createUser(req, res) {
 // Delete a user and remove them from the database
 async deleteUser(req, res) {
     try {
-      const user = await User.findOneAndRemove({ _id: req.params.studentId });
+      const user = await User.findOneAndRemove({ _id: req.params.userId });
 
-      if (!student) {
-        return res.status(404).json({ message: 'No such student exists' });
+      if (!user) {
+        return res.status(404).json({ message: 'No such user exists' });
       }
-      res.json({ message: 'Student successfully deleted' });
+      res.json({ message: 'User successfully deleted' });
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
