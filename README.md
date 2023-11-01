@@ -11,10 +11,7 @@ Through this project I learned:
 * That time invested was time well spent and I learned a lot.
   
 ## Being new to web development I came across some issues you may see obvious such as:
-* not completing all the routes
 * video is longer than it had to be and had difficulty keeping track of which route i ran
-* Just not understanding the logic behind CSS?
-* Biggest challenge was having things appear on the screeen when i wanted them to.
  ## Instalation
 N/A
 
